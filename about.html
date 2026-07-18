@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>About — Polite Robot</title>
+<meta name="description" content="Brian Utesch on why Polite Robot exists and how the instruments are built." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root, [data-theme="dark"] {
+    --bg:      #081b33;
+    --panel:   #0d2748;
+    --panel-2: #113159;
+    --sky:     #00BCEB;
+    --accent:  #4aa6ff;
+    --text:    #eaf2fb;
+    --text-strong: #ffffff;
+    --muted:   #8ba6c6;
+    --dim:     #56749a;
+    --line:    rgba(122,170,214,0.14);
+    --line-sky:rgba(0,188,235,0.22);
+    --grid:    rgba(122,170,214,0.14);
+  }
+  [data-theme="light"] {
+    --bg:      #F4F7FB;
+    --panel:   #ffffff;
+    --panel-2: #eef3fa;
+    --sky:     #00BCEB;
+    --accent:  #0070D2;
+    --text:    #223a5c;
+    --text-strong: #0D274D;
+    --muted:   #5a7395;
+    --dim:     #93a8c4;
+    --line:    rgba(13,39,77,0.12);
+    --line-sky:rgba(0,188,235,0.40);
+    --grid:    rgba(13,39,77,0.05);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 64px 64px, 64px 64px;
+    background-position: -1px -1px;
+    min-height: 100vh;
+    transition: background-color .25s ease, color .25s ease;
+  }
+  a { color: inherit; text-decoration: none; }
+  .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+
+  /* top bar */
+  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 20px 0 0; }
+  .brand { display: flex; align-items: center; gap: 11px; transition: opacity .18s ease; }
+  a.brand:hover { opacity: 0.82; }
+  .brand .led { width: 11px; height: 11px; border-radius: 50%; background: var(--sky); box-shadow: 0 0 12px var(--sky), 0 0 3px var(--sky); }
+  .brand .name { font-weight: 700; font-size: 16px; letter-spacing: 0.2px; }
+  .toggle {
+    display: inline-flex; align-items: center; gap: 7px; cursor: pointer;
+    background: var(--panel); border: 1px solid var(--line); color: var(--muted);
+    border-radius: 999px; padding: 6px 12px 6px 10px; font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.5px; transition: border-color .18s ease, color .18s ease;
+  }
+  .toggle:hover { border-color: var(--line-sky); color: var(--text); }
+  .toggle:focus-visible { outline: 2px solid var(--sky); outline-offset: 2px; }
+  .toggle svg { width: 14px; height: 14px; display: block; }
+
+  /* back link */
+  .back { display: inline-flex; align-items: center; gap: 7px; color: var(--muted); font-size: 13px; font-weight: 500; margin: 40px 0 0; transition: color .18s ease; }
+  .back:hover { color: var(--accent); }
+  .back:focus-visible { outline: 2px solid var(--sky); outline-offset: 3px; border-radius: 3px; }
+  .back .arw { transition: transform .18s ease; }
+  .back:hover .arw { transform: translateX(-3px); }
+
+  /* header */
+  .head { padding: 18px 0 8px; }
+  .eyebrow { color: var(--sky); font-size: 11.5px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 18px; font-weight: 500; }
+  .head h1 { font-weight: 300; font-size: clamp(34px, 5.4vw, 56px); line-height: 1.03; letter-spacing: -0.03em; margin: 0; }
+  .head h1 b { font-weight: 700; color: var(--text-strong); }
+
+  /* signal line */
+  .signal { position: relative; height: 2px; margin: 30px 0 0; background: linear-gradient(90deg, transparent, var(--line-sky) 12%, var(--line-sky) 88%, transparent); overflow: hidden; }
+  .signal::after { content: ""; position: absolute; top: -1px; left: -20%; width: 20%; height: 4px; border-radius: 2px; background: linear-gradient(90deg, transparent, var(--sky), transparent); box-shadow: 0 0 14px var(--sky); animation: sweep 5.5s cubic-bezier(.5,0,.5,1) infinite; }
+  @keyframes sweep { 0% { left: -22%; } 100% { left: 100%; } }
+
+  /* prose */
+  .prose { padding: 36px 0 8px; }
+  .prose p { color: var(--muted); font-size: 17px; line-height: 1.75; margin: 0 0 20px; }
+  .prose p:first-child { color: var(--text); font-size: 19px; }
+  .prose p:last-child { color: var(--text); margin-bottom: 0; }
+
+  /* footer */
+  footer { border-top: 1px solid var(--line); margin-top: 44px; padding: 22px 0 40px; }
+  .foot-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+  .foot-row .fmuted { color: var(--dim); font-size: 12.5px; }
+  .foot-link { color: var(--muted); font-size: 12.5px; font-weight: 500; transition: color .18s ease; }
+  .foot-link:hover { color: var(--accent); }
+  .foot-link:focus-visible { outline: 2px solid var(--sky); outline-offset: 3px; border-radius: 3px; }
+
+  @media (max-width: 560px) {
+    .head h1 { font-size: clamp(30px, 8vw, 40px); }
+    .prose p:first-child { font-size: 18px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .signal::after { animation: none; left: 40%; opacity: 0.5; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <a class="brand" href="index.html" aria-label="Back to Polite Robot home">
+        <span class="led" aria-hidden="true"></span>
+        <span class="name">Polite Robot</span>
+      </a>
+      <button class="toggle" id="themeToggle" type="button" aria-label="Switch color theme">
+        <span id="themeIcon" aria-hidden="true"></span>
+        <span id="themeLabel">DARK</span>
+      </button>
+    </div>
+
+    <a class="back" href="index.html"><span class="arw">←</span> All instruments</a>
+
+    <header class="head">
+      <div class="eyebrow mono">About</div>
+      <h1>I'm Brian <b>Utesch</b>.</h1>
+      <div class="signal" aria-hidden="true"></div>
+    </header>
+
+    <main class="prose">
+      <p>I have spent my career as a UX researcher, much of it running research and watching good findings die on the way to a decision.</p>
+      <p>That gap is why these tools exist. A team can run a flawless study and still lose, because the recommendation never gets adopted and nobody can see where it broke. I co-authored the Recommendation Adoption Score with Tammi Fitzwater and published it through Nielsen Norman Group to put a number on that problem. I co-authored UMUX-Lite years earlier for the same reason, because a measure you can defend beats an opinion you cannot.</p>
+      <p>Every tool in Polite Robot follows one rule. A deterministic engine computes every number, and the AI writes only the words around it. Nothing scores a study on a feeling, so you can audit the math, and when it is wrong you can point to exactly where.</p>
+      <p>I build these myself, in Wake Forest, North Carolina. If a tool tells you something, I want you to be able to check it.</p>
+    </main>
+
+    <footer>
+      <div class="foot-row">
+        <a class="foot-link" href="index.html">All instruments</a>
+        <span class="fmuted">Polite Robot · © <span id="yr"></span></span>
+      </div>
+    </footer>
+  </div>
+
+<script>
+  (function () {
+    const root = document.documentElement;
+    const sun = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg>';
+    const moon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
+    const icon = document.getElementById("themeIcon");
+    const label = document.getElementById("themeLabel");
+    function applyTheme(t) {
+      root.setAttribute("data-theme", t);
+      icon.innerHTML = t === "light" ? sun : moon;
+      label.textContent = t === "light" ? "LIGHT" : "DARK";
+    }
+    let saved = null;
+    try { saved = localStorage.getItem("pr-theme"); } catch (e) {}
+    const initial = saved || (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+    applyTheme(initial);
+    document.getElementById("themeToggle").addEventListener("click", () => {
+      const next = root.getAttribute("data-theme") === "light" ? "dark" : "light";
+      applyTheme(next);
+      try { localStorage.setItem("pr-theme", next); } catch (e) {}
+    });
+    document.getElementById("yr").textContent = new Date().getFullYear();
+  })();
+</script>
+</body>
+</html>
