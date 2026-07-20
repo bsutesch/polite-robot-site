@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Polite Robot — precision instruments for user research</title>
-<meta name="description" content="A suite of focused instruments for UX research, from job-market intelligence to recommendation-adoption tracking." />
+<title>Polite Robot — precision tools for user research</title>
+<meta name="description" content="A suite of focused tools for UX research, from job-market intelligence to recommendation-adoption tracking." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -31,7 +31,7 @@ const APPS = [
 <style>
   :root, [data-theme="dark"] {
     --bg:      #081b33;   /* deep midnight — the dark room */
-    --panel:   #0d2748;   /* instrument module */
+    --panel:   #0d2748;   /* tool module */
     --panel-2: #113159;   /* module hover */
     --sky:     #00BCEB;   /* illuminated accent */
     --accent:  #4aa6ff;   /* link accent, legible on dark */
@@ -64,7 +64,7 @@ const APPS = [
     color: var(--text);
     font-family: 'Inter', system-ui, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
-    /* faint instrument grid in the backdrop */
+    /* faint tool grid in the backdrop */
     background-image:
       linear-gradient(var(--grid) 1px, transparent 1px),
       linear-gradient(90deg, var(--grid) 1px, transparent 1px);
@@ -122,7 +122,7 @@ const APPS = [
   }
   @keyframes sweep { 0% { left: -22%; } 100% { left: 100%; } }
 
-  /* ── instrument grid ── */
+  /* ── tool grid ── */
   .rack {
     display: grid; grid-template-columns: repeat(auto-fill, minmax(268px, 1fr));
     gap: 16px; padding: 44px 0 12px;
@@ -200,7 +200,7 @@ const APPS = [
         <span class="name">Polite Robot</span>
       </div>
       <div style="display:flex; align-items:center; gap:16px;">
-        <span class="sys mono" id="sys">— instruments online</span>
+        <span class="sys mono" id="sys">— tools online</span>
         <button class="toggle" id="themeToggle" type="button" aria-label="Switch color theme">
           <span id="themeIcon" aria-hidden="true"></span>
           <span id="themeLabel">DARK</span>
@@ -209,7 +209,7 @@ const APPS = [
     </div>
 
     <header class="hero">
-      <div class="eyebrow mono">Instruments for user research</div>
+      <div class="eyebrow mono">Tools for user research</div>
       <p>A suite of focused tools built by a researcher, for researchers — each one does a single job well, from mapping opportunity to tracking whether your recommendations actually get adopted.</p>
       <div class="signal" aria-hidden="true"></div>
     </header>
