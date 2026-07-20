@@ -93,8 +93,16 @@
   /* prose */
   .prose { padding: 36px 0 8px; }
   .prose p { color: var(--muted); font-size: 17px; line-height: 1.75; margin: 0 0 20px; }
-  .prose p:first-child { color: var(--text); font-size: 19px; }
-  .prose p:last-child { color: var(--text); margin-bottom: 0; }
+  .prose p:first-of-type { color: var(--text); font-size: 19px; }
+  .prose p:last-of-type { color: var(--text); margin-bottom: 0; }
+  .photo {
+    width: 180px; height: 180px; border-radius: 50%; object-fit: cover;
+    object-position: center 15%;
+    border: 3px solid var(--line-sky);
+    box-shadow: 0 0 24px rgba(0,188,235,0.12);
+    margin-bottom: 28px;
+    display: block;
+  }
 
   /* footer */
   footer { border-top: 1px solid var(--line); margin-top: 44px; padding: 22px 0 40px; }
@@ -135,6 +143,7 @@
     </header>
 
     <main class="prose">
+      <img class="photo" src="brian.png" alt="Brian Utesch" width="180" height="180" />
       <p>I have spent my career as a UX researcher, much of it running research and watching good findings die on the way to a decision.</p>
       <p>That gap is why these tools exist. A team can run a flawless study and still lose, because the recommendation never gets adopted and nobody can see where it broke. I co-authored the Recommendation Adoption Score with Tammi Fitzwater and published it through Nielsen Norman Group to put a number on that problem. I co-authored UMUX-Lite years earlier for the same reason, because a measure you can defend beats an opinion you cannot.</p>
       <p>Every tool in Polite Robot follows one rule. A deterministic engine computes every number, and the AI writes only the words around it. Nothing scores a study on a feeling, so you can audit the math, and when it is wrong you can point to exactly where.</p>
